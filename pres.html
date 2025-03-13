@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Your Prescriptions - Amrit Sparsh</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons (FontAwesome) -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #28a745, #85d65e);
+      padding: 25px 30px;
+      color: #fff;
+    }
+
+    .header h1 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .description {
+      background: #f9fafb;
+      padding: 20px 30px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .description p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .image-preview {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .image-preview img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .content {
+      padding: 20px 30px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .student-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .upload-btn {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+
+    .upload-btn i {
+      margin-right: 8px;
+    }
+
+    .upload-btn:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    thead {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 16px 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    tbody tr {
+      background-color: #fafafa;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+
+    tbody tr:hover {
+      background-color: #eaffea;
+    }
+
+    .view-btn {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.3s;
+    }
+
+    .view-btn:hover {
+      background-color: #1e7e34;
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      color: #777;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    
+    <div class="header">
+      <h1>All Your Prescriptions</h1>
+      <p>Amrit Sparsh - IIT Student Healthcare Management System</p>
+    </div>
+
+    <div class="description">
+      <p><strong>Never lose a prescription again!</strong></p>
+      <p>Access all your past doctor prescriptions anytime, anywhere with ease. You can <strong>upload</strong> and <strong>view</strong> prescriptions whenever you need them.</p>
+      <p>Click the green <strong>"Upload Prescription"</strong> button to upload a new prescription (PDF, Image, etc.).</p>
+      <p>Your existing prescriptions are displayed below with their upload date. Click <strong>"View"</strong> to open and review your prescriptions.</p>
+    </div>
+
+    <div class="image-preview">
+      <img src="img/prescrition.png" alt="Prescription Preview">
+      <!-- Or use your absolute path if testing locally, but best practice for web is relative paths -->
+    </div>
+
+    <div class="content">
+      
+      <div class="top-bar">
+        <div class="student-name">Student Name: <span id="studentName">Ajay Kumar Sharma</span></div>
+        <button class="upload-btn" onclick="uploadPrescription()"><i class="fas fa-upload"></i>Upload Prescription</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Prescription Name</th>
+            <th>Date of Upload</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="prescriptionTableBody">
+          <!-- Prescription rows will be injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-note">
+      © 2025 Amrit Sparsh | All prescriptions are encrypted and securely managed.
+    </div>
+
+  </div>
+
+  <script>
+    const prescriptions = [
+      {
+        id: 1,
+        name: "Dr. Ahuja - Cold & Cough",
+        date: "2025-03-12",
+        fileUrl: "prescriptions/dr-ahuja-cold-cough.pdf"
+      },
+      {
+        id: 2,
+        name: "Dr. Sharma - Blood Pressure",
+        date: "2025-02-28",
+        fileUrl: "prescriptions/dr-sharma-bp.pdf"
+      },
+      {
+        id: 3,
+        name: "Dr. Verma - Diabetes Follow-up",
+        date: "2025-02-14",
+        fileUrl: "prescriptions/dr-verma-diabetes.pdf"
+      },
+      {
+        id: 4,
+        name: "Dr. Patel - General Health",
+        date: "2025-01-30",
+        fileUrl: "prescriptions/dr-patel-general.pdf"
+      }
+    ];
+
+    function loadPrescriptions() {
+      const tableBody = document.getElementById("prescriptionTableBody");
+      tableBody.innerHTML = "";
+
+      prescriptions.forEach((prescription, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${prescription.name}</td>
+          <td>${prescription.date}</td>
+          <td><button class="view-btn" onclick="viewPrescription('${prescription.fileUrl}', '${prescription.name}')">View</button></td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    function viewPrescription(url, prescriptionName) {
+      if (!url || url === "#") {
+        alert("Prescription not yet available!");
+      } else {
+        window.open(url, "_blank");
+      }
+    }
+
+    function uploadPrescription() {
+      alert("Upload functionality is under development.\nSoon you will be able to upload PDF/Image prescriptions securely.");
+    }
+
+    // Initialize table on page load
+    window.onload = loadPrescriptions;
+  </script>
+
+</body>
+</html>

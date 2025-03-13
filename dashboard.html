@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Personal Health Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f7fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #0077b6;
+    }
+
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 300px;
+      background-color: #e0f7fa;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 300px;
+    }
+
+    .circle-chart-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      background-color: #00b4d8;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0077b6;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .toggle-buttons button {
+      margin: 0 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #00b4d8;
+      color: white;
+    }
+
+    .charts-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>Personal Health Dashboard</header>
+
+<div class="container">
+
+  <!-- Smartwatch Connection Status -->
+  <div class="card">
+    <h2>Smartwatch Status</h2>
+    <p>Smartwatch: <strong>Connected ✅</strong></p>
+    <p>Next Auto-Sync: <strong>08:00 PM</strong></p>
+  </div>
+
+  <!-- Toggle Buttons -->
+  <div class="toggle-buttons">
+    <button class="btn" onclick="showSection('auto')">Smartwatch Data</button>
+    <button class="btn" onclick="showSection('manual')">Manual Entry</button>
+  </div>
+
+  <!-- Auto Data Section -->
+  <div id="auto" class="section">
+    
+    <!-- BP Graph -->
+    <div class="card">
+      <h2>BP Trends (Last 7 Days)</h2>
+      <canvas id="bpGraph"></canvas>
+    </div>
+
+    <!-- Heart Rate Graph -->
+    <div class="card">
+      <h2>Heart Rate Trends (Last 7 Days)</h2>
+      <canvas id="hrGraph"></canvas>
+    </div>
+
+    <!-- Two Circle Charts -->
+    <div class="charts-row">
+      <div class="card circle-chart-container">
+        <h3 style="text-align: center;">BP Status</h3>
+        <canvas id="bpCircular"></canvas>
+      </div>
+
+      <div class="card circle-chart-container">
+        <h3 style="text-align: center;">Heart Rate Status</h3>
+        <canvas id="hrCircular"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Entry Section -->
+  <div id="manual" class="section" style="display:none;">
+    <div class="card">
+      <h2>Manual Health Entry</h2>
+      <form id="manualForm">
+        <label>Date</label>
+        <input type="date" id="date" required>
+
+        <label>Time</label>
+        <input type="time" id="time" required>
+
+        <label>Place</label>
+        <input type="text" id="place" placeholder="Hospital/Clinic Name" required>
+
+        <label>Measurement Type</label>
+        <select id="type" required>
+          <option value="BP">Blood Pressure</option>
+          <option value="Sugar">Sugar Level</option>
+          <option value="HeartRate">Heart Rate</option>
+        </select>
+
+        <label>Result</label>
+        <input type="text" id="result" placeholder="e.g., 120/80" required>
+
+        <label>Notes</label>
+        <textarea id="notes" placeholder="Optional..."></textarea>
+
+        <button type="submit" class="btn">Add Entry</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Manual Entries</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Place</th>
+            <th>Type</th>
+            <th>Result</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="manualTable">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Toggle sections
+  function showSection(section) {
+    document.getElementById('auto').style.display = (section === 'auto') ? 'block' : 'none';
+    document.getElementById('manual').style.display = (section === 'manual') ? 'block' : 'none';
+  }
+
+  // BP Line Graph
+  const bpGraphCtx = document.getElementById('bpGraph').getContext('2d');
+  new Chart(bpGraphCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        label: 'BP (mmHg)',
+        data: [120, 125, 130, 115, 118, 122, 121],
+        borderColor: '#0077b6',
+        backgroundColor: 'rgba(0, 119, 182, 0.2)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+
+  // Heart Rate Line Graph
+  const hrGraphCtx = document.getElementById('hrGraph').getContext('2d');
+  new Chart(hrGraphCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        label: 'Heart Rate (BPM)',
+        data: [72, 75, 78, 70, 74, 73, 76],
+        borderColor: '#ff6b6b',
+        backgroundColor: 'rgba(255, 107, 107, 0.2)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+
+  // Circular Charts - BP Status
+  const bpCtx = document.getElementById('bpCircular').getContext('2d');
+  new Chart(bpCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Normal', 'High'],
+      datasets: [{
+        label: 'BP Status',
+        data: [75, 25],
+        backgroundColor: ['#38b000', '#e63946'],
+      }]
+    },
+    options: {
+      cutout: '70%',
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  // Circular Charts - Heart Rate Status
+  const hrCtx = document.getElementById('hrCircular').getContext('2d');
+  new Chart(hrCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Normal', 'High'],
+      datasets: [{
+        label: 'Heart Rate Status',
+        data: [80, 20],
+        backgroundColor: ['#38b000', '#e63946'],
+      }]
+    },
+    options: {
+      cutout: '70%',
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+
+  // Manual Data Handling
+  const manualForm = document.getElementById('manualForm');
+  const manualTable = document.getElementById('manualTable');
+
+  manualForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const place = document.getElementById('place').value;
+    const type = document.getElementById('type').value;
+    const result = document.getElementById('result').value;
+    const notes = document.getElementById('notes').value;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${date}</td>
+      <td>${time}</td>
+      <td>${place}</td>
+      <td>${type}</td>
+      <td>${result}</td>
+      <td>${notes}</td>
+    `;
+
+    manualTable.appendChild(row);
+    manualForm.reset();
+  });
+</script>
+
+</body>
+</html>

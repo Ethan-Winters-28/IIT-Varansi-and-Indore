@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>One Tap All Reports - Amrit Sparsh</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons (FontAwesome) -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #007BFF, #00c6ff);
+      padding: 25px 30px;
+      color: #fff;
+    }
+
+    .header h1 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .description {
+      background: #f9fafb;
+      padding: 20px 30px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .description p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      padding: 20px 30px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .student-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .upload-btn {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+
+    .upload-btn i {
+      margin-right: 8px;
+    }
+
+    .upload-btn:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    thead {
+      background-color: #007BFF;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 16px 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    tbody tr {
+      background-color: #fafafa;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f7ff;
+    }
+
+    .view-btn {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.3s;
+    }
+
+    .view-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      color: #777;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    
+    <div class="header">
+      <h1>One Tap All Reports</h1>
+      <p>Amrit Sparsh - IIT Student Healthcare Management System</p>
+    </div>
+
+    <div class="description">
+      <p><strong>How it works:</strong></p>
+      <p>Here you can <strong>upload</strong> and <strong>access</strong> your health reports in one click.</p>
+      <p>Click the green <strong>"Upload Report"</strong> button to upload a new report (PDF, Image, etc.). Your existing reports are displayed below with their upload date.</p>
+      <p>Click <strong>"View"</strong> to open and review your reports. All reports are securely stored and easy to access anytime!</p>
+    </div>
+
+    <div class="content">
+      
+      <div class="top-bar">
+        <div class="student-name">Student Name: <span id="studentName">Ajay Kumar Sharma</span></div>
+        <button class="upload-btn" onclick="uploadReport()"><i class="fas fa-upload"></i>Upload Report</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Report Name</th>
+            <th>Date of Upload</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody">
+          <!-- Report rows will be injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-note">
+      © 2025 Amrit Sparsh | All reports are encrypted and securely managed.
+    </div>
+
+  </div>
+
+  <script>
+    const reports = [
+      {
+        id: 1,
+        name: "Blood Test Report",
+        date: "2025-03-10",
+        fileUrl: "report aks/469ec77f-6244-47c6-bdf8-143993c75d3c.pdf" // Real report file
+      },
+      {
+        id: 2,
+        name: "X-Ray Chest Scan",
+        date: "2025-03-08",
+        fileUrl: "report aks/xray-chest-scan.pdf" // Replace with your file
+      },
+      {
+        id: 3,
+        name: "MRI Brain Report",
+        date: "2025-03-05",
+        fileUrl: "report aks/mri-brain-report.pdf" // Replace with your file
+      },
+      {
+        id: 4,
+        name: "COVID-19 Report",
+        date: "2025-02-25",
+        fileUrl: "report aks/covid19-report.pdf" // Replace with your file
+      },
+      {
+        id: 5,
+        name: "General Health Checkup",
+        date: "2025-01-15",
+        fileUrl: "report aks/general-health-checkup.pdf" // Replace with your file
+      }
+    ];
+
+    function loadReports() {
+      const tableBody = document.getElementById("reportTableBody");
+      tableBody.innerHTML = "";
+
+      reports.forEach((report, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${report.name}</td>
+          <td>${report.date}</td>
+          <td><button class="view-btn" onclick="viewReport('${report.fileUrl}', '${report.name}')">View</button></td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    function viewReport(url, reportName) {
+      if (!url || url === "#") {
+        alert("Report not yet available!");
+      } else {
+        window.open(url, "_blank");
+      }
+    }
+
+    function uploadReport() {
+      alert("Upload functionality is under development.\nSoon you will be able to upload PDF/Image reports securely.");
+    }
+
+    // Initialize table on page load
+    window.onload = loadReports;
+  </script>
+
+</body>
+</html>

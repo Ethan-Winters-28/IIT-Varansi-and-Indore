@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Health Reminders - Amrit Sparsh</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f9ff;
+      color: #333;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 20px 40px;
+      text-align: center;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .hero-section {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #e6f7ff;
+      padding: 40px;
+      border-radius: 15px;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-text {
+      flex: 1;
+      padding-right: 20px;
+    }
+
+    .hero-text h1 {
+      font-size: 36px;
+      color: #007BFF;
+      margin-bottom: 20px;
+    }
+
+    .hero-text p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .hero-text ul {
+      padding-left: 20px;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .hero-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 15px;
+    }
+
+    .reminder-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .reminder-card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
+
+    .reminder-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .reminder-card h3 {
+      margin-bottom: 15px;
+      color: #007BFF;
+    }
+
+    .reminder-card p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .footer-btn {
+      display: block;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .footer-btn a {
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .footer-btn a:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        flex-direction: column;
+      }
+
+      .hero-text {
+        padding-right: 0;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h2>Amrit Sparsh Healthcare</h2>
+  </header>
+
+  <div class="container">
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-text">
+        <h1>Smart Health Reminders</h1>
+        <p>
+          Stay on top of your health with personalized reminders! Based on your sleep, physical activity, and wellness data collected through the app, IIT can organize rest, yoga, or sports sessions as needed.
+        </p>
+        <ul>
+          <li>🧘 Yoga & Rest Sessions for sleep-deprived students</li>
+          <li>⚽ Sports Periods during winters to keep you active</li>
+          <li>💡 Personalized health nudges based on your daily habits</li>
+        </ul>
+      </div>
+
+      <div class="hero-image">
+        <img src="img/time-checkup-exam-evaluation-clock-260nw-498642880.jpg" alt="Health Reminder Image">
+      </div>
+    </div>
+
+    <!-- Reminder Cards -->
+    <div class="reminder-cards">
+
+      <div class="reminder-card">
+        <h3>💊 Medicine Time!</h3>
+        <p>"Pop that pill like a boss!" – Your health depends on it! Reminder set for 8:00 AM and 8:00 PM daily.</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>👀 Eye Check-Up</h3>
+        <p>"You’ve been staring at the screen for 5 hours! Give your eyes some love!" Monthly check-up reminders set.</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>🧘 Yoga & Meditation Break</h3>
+        <p>"Breathe in... Breathe out... Time for a 10-minute yoga break!" Scheduled at 6:30 AM or whenever you're stressed.</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>🚶 Walk & Stretch Alert</h3>
+        <p>"Get up! Your chair isn’t going anywhere, but you need to move!" Reminder every 2 hours to stretch and walk.</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>💧 Hydration Reminder</h3>
+        <p>"Time to sip that H2O and stay awesome!" Set every 1 hour. Your body will thank you!</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>😴 Sleep Tracker Feedback</h3>
+        <p>"You slept 4 hours last night. Schedule a power nap or join the campus Yoga Rest Hour!" Real-time notifications based on sleep data.</p>
+      </div>
+
+      <div class="reminder-card">
+        <h3>⚽ Campus Sports Alert</h3>
+        <p>"Winter blues? Time for some indoor cricket or badminton!" Scheduled based on your activity levels and seasons.</p>
+      </div>
+
+    </div>
+
+    <!-- Call to Action Button -->
+    <div class="footer-btn">
+      <a href="#">Customize Your Health Reminders Now</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
